@@ -1,0 +1,90 @@
+------------------------------------------------------------------------
+
+        Logstash é um mecanismo de coleta de dados de código aberto
+        com recursos de pipeline em tempo real. 
+
+------------------------------------------------------------------------
+
+ O pipeline de processamento de eventos do Logstash possui três estágios: 
+
+ FLuxo e tempo real, unificando dados dinamicamente de fontes diferentes
+
+ inputs → filters → outputs
+ events    modify    ship(outro lugar)
+
+------------------------------------------------------------------------
+
+    Entradas
+file, syslog,redis,beats
+
+lê um arquivo no sistema de arquivos
+escuta na conhecida porta 514 mensagens syslog 
+lê de um servidor redis serve , canal
+processa eventos enviados pelo Beats.
+
+------------------------------------------------------------------------
+
+    Filtros ( Não obrigatorio, é um passo intermediario )
+grok,mutate,drop,clone,geoip
+
+analisa e estrutura texto arbitrário. FILTRO DE EXPRESSÃO REGULAR
+realiza transformações gerais em campos de eventos. 
+elimina completamente um evento
+​​faz uma cópia de um evento
+adicione informações sobre a localização geográfica de endereços IP 
+
+------------------------------------------------------------------------
+
+    Saidas
+elasticsearch,file,graphite,statsd
+
+envia dados do evento para o Elasticsearch
+grava dados do evento em um arquivo no disco.
+envia dados de eventos para graphite
+envia dados de eventos para statsd, um serviço que "escuta estatísticas
+
+------------------------------------------------------------------------
+
+Codecs
+filtros de fluxo que podem operar como parte de uma entrada ou saída.
+
+json : codifica ou decodifica dados no formato JSON.
+multiline : mescla eventos de texto de múltiplas linhas, como exceção java e mensagens stacktrace em um único evento.
+
+-plain - Rodar um pain teste 
+-msgpack - Pacote de mensagem
+
+------------------------------------------------------------------------
+
+Ordenação de eventos
+
+Por design e por padrão, o Logstash não garante a ordem dos eventos. 
+A reordenação pode ocorrer em dois lugares
+
+eventos dentro de um lote podem ser reordenados durante o processamento do filtro.
+lotes em andamento podem ser reordenados quando um ou mais lotes são processados ​​mais rapidamente que outros.
+
+------------------------------------------------------------------------
+
+home,bin,settings,logs,plugins,data
+
+Diretório inicial da instalação do Logstash.
+Scripts binários, iniciar o Logstash e logstash-plugininstalar plug-ins
+Arquivos de configuração, incluindo logstash.ymlejvm.options
+Arquivos de registro
+Arquivos de plug-in locais, não Ruby-Gem.
+Arquivos de dados usados ​​pelo logstash e seus plugins para qualquer necessidade de persistência.
+
+------------------------------------------------------------------------
+
+Logstash possui dois tipos de arquivos de configuração: 
+
+arquivos de configuração de pipeline: definem o pipeline de processamento do Logstash - /etc/logstash/conf.d
+
+arquivos de configurações: que especificam opções que controlam a inicialização e a execução do Logstash.
+
+------------------------------------------------------------------------
+
+
+
+
