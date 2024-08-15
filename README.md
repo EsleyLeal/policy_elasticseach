@@ -1,33 +1,38 @@
-# policy_elasticseach
-Script that changes retention time in elasticsearch
+# Política de Gerenciamento do Ciclo de Vida do Índice (ILM) no Elasticsearch
 
-Index Lifecycle Management Policy
-Overview
-This repository contains an Elasticsearch Index Lifecycle Management (ILM) policy configuration. ILM is a feature in Elasticsearch that allows you to manage the lifecycle of your indices. It helps you automate the process of transitioning indices through different phases based on specified conditions.
+Este repositório contém uma configuração de política de Gerenciamento do Ciclo de Vida do Índice (ILM) do Elasticsearch. O ILM é um recurso que permite automatizar o gerenciamento do ciclo de vida dos índices, ajudando a transitar os índices por diferentes fases com base em condições específicas.
 
-Policy Configuration
-Policy Object
-The root object, policy, defines the index lifecycle policy and contains all the phases and actions that will be applied to the indices associated with this policy.
+## Visão Geral
 
-Phases Object
-Within the policy, the phases object contains the different phases of an index's lifecycle: hot, warm, cold, and delete.
+### Objeto de Política
 
-Hot Phase
-The hot phase is the first phase of the index lifecycle and is where active indices reside. During this phase, indices receive a large amount of new data. Actions in this phase are designed to optimize both write and query performance.
+O objeto raiz, `policy`, define a política de ciclo de vida do índice e contém todas as fases e ações aplicáveis aos índices associados a essa política.
 
-min_age: This parameter defines the minimum age an index must have before transitioning to the next action within the hot phase. For example, "min_age": "20m" means the index must be at least 20 minutes old before any action is taken.
-Actions in Hot Phase
-Rollover: This action allows an index to be "rolled over" to a new index when specific criteria are met, such as size or age.
-max_size: This criterion defines the maximum size an index can reach before triggering a rollover action. For example, "max_size": "50gb" initiates a rollover when the index reaches 50GB.
-max_age: This criterion defines the maximum age an index can reach before triggering a rollover action. For example, "max_age": "1d" initiates a rollover when the index is 1 day old.
-Delete Phase
-The delete phase defines when and how indices should be deleted.
+### Fases do Ciclo de Vida
 
-min_age: Similar to the hot phase, this parameter within the delete phase defines the minimum age the index must have before being deleted. If set to "min_age": "20m", the index will be deleted after 20 minutes of its creation or after 20 minutes in the hot phase, depending on how the policy is configured.
-Actions in Delete Phase
-Delete: Within the delete phase, this object contains the specific delete action to remove the index.
-Additional Information
-In Elasticsearch, an index can have 1 or N primary shards.
-ILM policies are executed every 10 minutes, so it is normal for the index to have an age slightly larger than defined.
-The ILM check interval can be adjusted, but be mindful as it may generate overhead in the environment. Please take this into consideration when making adjustments.
-Feel free to customize this policy according to your specific requirements. For more information on Elasticsearch Index Lifecycle Management, refer to the official Elasticsearch documentation.
+Dentro da política, o objeto `phases` define as diferentes fases do ciclo de vida de um índice:
+
+- **Fase Quente (Hot):** A primeira fase do ciclo de vida, onde índices ativos recebem uma grande quantidade de novos dados. Ações nesta fase otimizam o desempenho de gravação e consulta.
+- **Fase Morna (Warm):** Fase intermediária onde os índices ainda são pesquisáveis, mas não recebem novos dados com a mesma frequência.
+- **Fase Fria (Cold):** Fase onde os índices são menos acessados, otimizando custos de armazenamento.
+- **Fase de Exclusão (Delete):** Define quando e como os índices devem ser excluídos.
+
+### Configuração da Fase Quente (Hot)
+
+- **`min_age`:** Define a idade mínima que um índice deve ter antes de passar para a próxima ação dentro da fase quente. Exemplo: `"min_age": "20m"` (20 minutos).
+- **Ações na Fase Quente:**
+  - **Rollover:** Permite que um índice seja "rolado" para um novo índice quando critérios como tamanho ou idade são atendidos.
+    - **`max_size`:** Tamanho máximo que um índice pode atingir antes de acionar o rollover. Exemplo: `"max_size": "50gb"` (50GB).
+    - **`max_age`:** Idade máxima que um índice pode atingir antes de acionar o rollover. Exemplo: `"max_age": "1d"` (1 dia).
+
+### Configuração da Fase de Exclusão (Delete)
+
+- **`min_age`:** Define a idade mínima que o índice deve ter antes de ser excluído. Exemplo: `"min_age": "20m"` (20 minutos).
+- **Ações na Fase de Exclusão:**
+  - **Delete:** Ação específica para remover o índice.
+
+## Informações Adicionais
+
+No Elasticsearch, um índice pode ter 1 ou mais shards primários. As políticas ILM são executadas a cada 10 minutos, então é normal que o índice tenha uma idade ligeiramente maior que a definida. O intervalo de verificação do ILM pode ser ajustado, mas isso pode gerar sobrecarga no ambiente. 
+
+Sinta-se à vontade para personalizar esta política de acordo com seus requisitos específicos. Para mais informações, consulte a [documentação oficial do Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html).
