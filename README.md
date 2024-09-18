@@ -1,5 +1,8 @@
 # Política de Gerenciamento do Ciclo de Vida do Índice (ILM) no Elasticsearch
 
+Tive uma experiência informal em um provedor de internet de bairro. Nesse provedor, pude conhecer Docker, Elasticsearch, Grafana e Zabbix. Junto com a liderança, 
+fui guiado para realizar esse trabalho, entre outros, como scripts em .bsh, etc.
+
 Este repositório contém uma configuração de política de Gerenciamento do Ciclo de Vida do Índice (ILM) do Elasticsearch. O ILM é um recurso que permite automatizar o gerenciamento do ciclo de vida dos índices, ajudando a transitar os índices por diferentes fases com base em condições específicas.
 
 ## Visão Geral
